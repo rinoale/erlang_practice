@@ -18,11 +18,14 @@ pong() ->
   io:format("PONG::CREATED~n", []),
   receive
     finished->
-      io:format("Pong finished~n", []);
+      io:format("Pong finished~n", []),
+      pong();
     {ping, Ping_PID} ->
       io:format("Pong received ping~n", []),
       Ping_PID ! pong,
       wait(2),
+      pong()
+  after 2000 ->
       pong()
   end.
 
